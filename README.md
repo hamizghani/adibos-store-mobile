@@ -1,16 +1,4 @@
-# adibos_store_mobile
-
-Project demo sederhana untuk menampilkan tiga tombol produk dengan ikon, warna, dan Snackbar.
-
-## Fitur yang ditambahkan
-
-- Tiga tombol dengan ikon dan teks:
-	- All Products (warna biru)
-	- My Products (warna hijau)
-	- Create Product (warna merah)
-- Menampilkan Snackbar ketika masing-masing tombol ditekan.
-
-## Penjelasan (jawaban pertanyaan pengguna)
+# TUGAS 1
 
 ### 1) Apa itu widget tree pada Flutter dan bagaimana hubungan parent-child (induk-anak) bekerja antar widget?
 
@@ -57,14 +45,35 @@ Contoh penggunaan di project ini: `ScaffoldMessenger.of(context).showSnackBar(..
 
 Perbedaan utama: hot reload mempertahankan state, lebih cepat; hot restart mereset state dan memulai ulang aplikasi.
 
-## Cara menjalankan (singkat)
 
-1. Pastikan Flutter SDK terpasang dan path sudah diset.
-2. Jalankan pada emulator atau perangkat:
+# TUGAS 2
 
-```bash
-flutter pub get
-flutter run
-```
+1) Perbedaan Navigator.push() dan Navigator.pushReplacement() — kapan digunakan?
 
-Itu saja — sekarang ada tiga tombol di halaman utama yang menampilkan Snackbar berbeda saat ditekan.
+- `Navigator.push(context, route)`: mendorong route baru ke atas stack navigator sehingga pengguna dapat kembali ke halaman sebelumnya dengan `Navigator.pop()`.
+- `Navigator.pushReplacement(context, route)`: menggantikan route saat ini dengan route baru (route sebelumnya dihapus dari stack). Pengguna tidak dapat kembali ke route yang digantikan.
+
+Kapan digunakan di aplikasi Adibos Store Shop:
+- Gunakan `push` saat membuka halaman sementara seperti form tambah produk jika Anda ingin pengguna bisa menekan "back" untuk kembali ke halaman utama.
+- Gunakan `pushReplacement` saat mengganti halaman root atau setelah login/logout, atau jika Anda ingin mencegah pengguna kembali ke halaman sebelumnya (mis. setelah menyelesaikan proses setup). Pada drawer di aplikasi ini saya menggunakan `pushReplacement` untuk opsi `Halaman Utama` agar memastikan navigasi konsisten tanpa menumpuk route duplicate.
+
+2) Bagaimana memanfaatkan hierarchy widget seperti Scaffold, AppBar, dan Drawer untuk struktur halaman konsisten?
+
+- `Scaffold` menyediakan layout dasar (AppBar, body, drawer, floatingActionButton) sehingga setiap halaman memiliki struktur yang seragam.
+- `AppBar` menjaga konsistensi header/judul di setiap halaman.
+- `Drawer` menyediakan navigasi global yang konsisten di seluruh halaman. Dengan menempatkan Drawer di `Scaffold` yang sama (atau pada setiap halaman), pengguna selalu melihat dan dapat mengakses menu yang sama.
+
+Contoh dari aplikasi ini: baik `HomeScreen` maupun `AddProductScreen` memakai `Scaffold` + `AppBar` + `Drawer` sehingga tampilan dan navigasi tetap konsisten.
+
+3) Kelebihan menggunakan layout widget seperti Padding, SingleChildScrollView, dan ListView pada form
+
+- `Padding`: memberi jarak antar elemen sehingga UI tidak terasa sempit.
+- `SingleChildScrollView`: memungkinkan konten form yang panjang dapat discroll ketika keyboard muncul atau pada layar kecil.
+- `ListView`: efisien untuk daftar panjang dan menyediakan scrolling otomatis serta fitur builder.
+
+Contoh penggunaan di aplikasi ini: pada `AddProductScreen` saya membungkus `Form` dengan `SingleChildScrollView` dan menambahkan `padding` agar form mudah dibaca dan tidak tertutup keyboard.
+
+4) Menyesuaikan warna tema untuk identitas visual brand
+
+- Gunakan `ThemeData` pada `MaterialApp` untuk mengatur `colorScheme`, `primaryColor`, `fontFamily`, dan style global lain. Pilih palet warna brand (mis. primary, secondary) dan gunakan konsisten di AppBar, tombol, dan elemen penting.
+- Contoh di proyek ini: `ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue))` memberikan warna dasar biru;
