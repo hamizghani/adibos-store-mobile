@@ -19,7 +19,7 @@ Hubungan parent-child bersifat eksplisit: parent menyisipkan instance child di d
 - `SizedBox`: Memberi spasi vertikal kecil antar tombol.
 - `SnackBar` (digunakan via `ScaffoldMessenger`): Menampilkan pesan sementara di bagian bawah layar.
 
-Fungsi ringkas: kita menggunakan kombinasi widget di atas untuk membangun tata letak vertikal berisi tiga tombol yang memiliki ikon, warna khusus, dan menampilkan pesan singkat ketika ditekan.
+Fungsi ringkas: saya menggunakan kombinasi widget di atas untuk membangun tata letak vertikal berisi tiga tombol yang memiliki ikon, warna khusus, dan menampilkan pesan singkat ketika ditekan.
 
 ### 3) Apa fungsi dari widget MaterialApp? Mengapa widget ini sering digunakan sebagai widget root?
 
