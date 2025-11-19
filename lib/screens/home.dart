@@ -1,34 +1,79 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:pbp_django_auth/pbp_django_auth.dart';
-import 'package:adibos_store_mobile/screens/login.dart';
-import 'package:adibos_store_mobile/screens/home.dart';
+import 'package:adibos_store_mobile/screens/product_entry_list.dart';
+import 'package:adibos_store_mobile/widgets/left_drawer.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  void _showSnackbar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Provider<CookieRequest>(
-      create: (_) => CookieRequest(),
-      child: MaterialApp(
-        title: 'Adibos Store',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-          useMaterial3: true,
-        ),
-        home: Consumer<CookieRequest>(
-          builder: (context, request, _) {
-            // If logged in show dashboard, otherwise show login
-            if (request.loggedIn) {
-              return const HomeScreen();
-            }
-            return const LoginPage();
-          },
+    return Scaffold(
+      drawer: const LeftDrawer(),
+      appBar: AppBar(
+        title: const Text('Adibos Store'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            ElevatedButton.icon(
+              icon: const Icon(Icons.list),
+              label: const Padding(
+                padding: EdgeInsets.symmetric(vertical: 12.0),
+                child: Text('All Products'),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const ProductEntryListPage()),
+                );
+              },
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton.icon(
+              icon: const Icon(Icons.shopping_bag),
+              label: const Padding(
+                padding: EdgeInsets.symmetric(vertical: 12.0),
+                child: Text('My Products'),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+                foregroundColor: Colors.white,
+              ),
+              onPressed: () => _showSnackbar(context, 'Kamu telah menekan tombol My Products'),
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton.icon(
+              icon: const Icon(Icons.add),
+              label: const Padding(
+                padding: EdgeInsets.symmetric(vertical: 12.0),
+                child: Text('Tambah Produk'),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+                foregroundColor: Colors.white,
+              ),
+              onPressed: () {
+                // Navigate to Add Product form
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const AddProductScreen()),
+                );
+              },
+            ),
+          ],
         ),
       ),
     );
@@ -129,40 +174,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(color: Colors.blue),
-              child: Text('Menu', style: TextStyle(color: Colors.white, fontSize: 20)),
-            ),
-            ListTile(
-              leading: const Icon(Icons.home),
-              title: const Text('Halaman Utama'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (_) => const HomeScreen()),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.add),
-              title: const Text('Tambah Produk'),
-              onTap: () {
-                Navigator.pop(context);
-                // already here maybe; do nothing or recreate
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (_) => const AddProductScreen()),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
       appBar: AppBar(title: const Text('Tambah Produk')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
